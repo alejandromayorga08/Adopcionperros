@@ -67,5 +67,77 @@ public class Main {
         perrosDisponibles.add(new Perro(placa,nombre,raza,edad,tamaño));
         System.out.println("Perro registrado con exito......");
     }
+   }
+    private static void verPersonas(){
+        if (personas.isEmpty()){
+            System.out.println("No hay personas registradas...");
+            return;
+        }
+        for(Persona p : personas){
+            System.out.println(p);
+        }
+    }
+    private static void verPerrosDisponibles(){
+        if(perrosDisponibles.isEmpty()){
+            System.out.println("No hay perros disponibles.....");
+            return;
+        }
+        for(Perro p : perrosDisponibles){
+            System.out.println(p);
+        }
+    }
+    private static void adoptarPerros(){
+        System.out.println("Documento de la persona: ");
+        String documento = teclado.next();
+        Persona persona = buscarPersona(documento);
+        if (persona == null){
+            System.out.println("Persona no encontrada.... ");
+            return;
+        }
+        System.out.println("Placa del perro a adoptar: ");
+        String placa = teclado.next();
+        Perro perro = buscarPerro(placa);
+        if(perro == null){
+            System.out.println("Perro no disponible....");
+            return;
+        }
+        if(persona.adoptarPerro(perro)){
+            perrosDisponibles.remove(perro);
+            System.out.println("Perro adoptado con exito....");
+        }else{
+            System.out.println("Esta persona ya ha adoptado el maximo de 3 perros.....");
+        }
+    }
+    private static void consultarPerroMasViejo(){
+        System.out.println("Documento de la persona: ");
+        String documento = teclado.next();
+        Persona persona = buscarPersona(documento);
+        if(persona == null){
+            System.out.println("Persona no encontrada.....");
+            return;
+        }
+        Perro masViejo = persona.perroMasGrande();
+        if(masViejo!=null){
+            System.out.println("El perros mas viejo adoptado es:  \n"+masViejo);
+        }else{
+            System.out.println("Esta persona no ha adoptado perros aun.....");
+        }
 
+    }
+    private static Persona buscarPersona(String documento) {
+        for(Persona p: personas ){
+            if(p.getDocumento().equalsIgnoreCase(documento)){
+                return p;
+            }
+        }
+        return null;
+    }
+    private static Perro buscarPerro(String placa) {
+        for(Perro p : perrosDisponibles){
+            if(p.getPlaca().equalsIgnoreCase(placa)){
+                return p;
+            }
+        }
+        return null;
+    }
 }
